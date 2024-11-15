@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: raphaelvpn_bot
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    depends_on:
+      - db
+    networks:
+      - raphaelvpn_network
+
+  db:
+    image: postgres:15
+    container_name: raphaelvpn_db
+    environment:
+      POSTGRES_USER: itservice
+      POSTGRES_PASSWORD: itservice
+      POSTGRES_DB: raphaelvpn
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - raphaelvpn_network
+
+networks:
+  raphaelvpn_network:
+
+volumes:
+  postgres_data:
